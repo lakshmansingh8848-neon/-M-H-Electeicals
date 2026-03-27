@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>M H Electricals - Neon Signs</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Orbitron&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin:0;
+    background:black;
+    color:white;
+    font-family:Arial;
+    text-align:center;
+}
+
+h1 {
+    color:#00ffff;
+}
+
+#preview {
+    font-size:60px;
+    margin:30px;
+    text-shadow:0 0 10px cyan,0 0 20px cyan;
+}
+
+.controls input, select {
+    padding:10px;
+    margin:8px;
+}
+
+.price-box {
+    font-size:24px;
+    margin:20px;
+    color:yellow;
+}
+
+button {
+    padding:15px;
+    font-size:18px;
+    background:#00ffff;
+    border:none;
+    cursor:pointer;
+}
+
+/* WhatsApp Button */
+.whatsapp {
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#25D366;
+    color:white;
+    padding:15px;
+    border-radius:50%;
+    font-size:20px;
+    text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<h1>M H Electricals - Neon Sign Builder</h1>
+
+<div id="preview">Your Name</div>
+
+<div class="controls">
+<input type="text" id="textInput" placeholder="Enter text">
+
+<select id="size">
+<option value="1">Small</option>
+<option value="1.5">Medium</option>
+<option value="2">Large</option>
+</select>
+
+<input type="color" id="color" value="#00ffff">
+</div>
+
+<div class="price-box">
+Price: ₹ <span id="price">0</span>
+</div>
+
+<button onclick="sendWhatsApp()">Order via WhatsApp</button>
+
+<!-- WhatsApp Chat Button -->
+<a class="whatsapp" href="https://wa.me/919746917383" target="_blank">💬</a>
+
+<script>
+let rate = 50; // ₹ per letter
+
+let textInput = document.getElementById("textInput");
+let preview = document.getElementById("preview");
+let size = document.getElementById("size");
+let color = document.getElementById("color");
+let priceEl = document.getElementById("price");
+
+// Update Preview + Price
+textInput.oninput = updateAll;
+size.onchange = updateAll;
+color.oninput = updateAll;
+
+function updateAll() {
+    let text = textInput.value;
+    let length = text.length;
+    let multiplier = size.value;
+
+    // Preview
+    preview.innerText = text;
+    preview.style.color = color.value;
+    preview.style.textShadow = `0 0 10px ${color.value},0 0 30px ${color.value}`;
+
+    // Price Calculation
+    let price = Math.round(length * rate * multiplier);
+    priceEl.innerText = price;
+}
+
+// WhatsApp Order
+function sendWhatsApp() {
+    let text = textInput.value;
+    let price = priceEl.innerText;
+
+    if(text === "") {
+        alert("Please enter text");
+        return;
+    }
+
+    let message = `Hello, I want to order a neon sign:
+Text: ${text}
+Price: ₹${price}`;
+
+    let url = "https://wa.me/919746917383?text=" + encodeURIComponent(message);
+
+    window.open(url, "_blank");
+}
+</script>
+
+</body>
+</html>
